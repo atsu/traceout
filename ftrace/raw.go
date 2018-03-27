@@ -45,10 +45,13 @@ func getRawFtraceChan(fp FileProvider, cpu int, doneCh <-chan bool) (<-chan []by
 			if e, ok := err.(*os.PathError); ok && e.Err == syscall.EINTR {
 				continue
 			}
-			if err == io.EOF || err != nil || n == 0 {
-				fmt.Println(err)
-				// TODO: error over channel?
-				break
+
+			if err != nil || n == 0 {
+				// Silently ignore EOF, spew ignorance for the rest.
+				if err != io.EOF {
+					fmt.Println(err, "ignoring")
+				}
+				continue
 			}
 
 			select {

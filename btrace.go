@@ -24,7 +24,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/google/traceout/ftrace"
+	"github.com/atsuio/traceout/ftrace"
 )
 
 import _ "net/http/pprof"
@@ -134,7 +134,7 @@ func do_main() error {
 	eventTypes := []*ftrace.EventType{}
 
 	for _, e := range eventNames {
-		eType, err := f.NewEventType(e)
+		eType, err := f.NewEventType(e, e)
 		if err != nil {
 			return err
 		}

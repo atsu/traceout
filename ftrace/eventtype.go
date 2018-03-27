@@ -18,12 +18,11 @@ import (
 	"errors"
 	"fmt"
 	"path"
-	"path/filepath"
 	"strconv"
 	"strings"
 
-	"github.com/google/traceout/ftrace/cparse"
-	"github.com/google/traceout/ftrace/cprintf"
+	"github.com/atsuio/traceout/ftrace/cparse"
+	"github.com/atsuio/traceout/ftrace/cprintf"
 )
 
 type EventType struct {
@@ -74,7 +73,7 @@ func NewHeaderType(fp FileProvider, path string) (*EventType, error) {
 	return &etype, nil
 }
 
-func newEventType(fp FileProvider, path string) (*EventType, error) {
+func newEventType(fp FileProvider, name string, path string) (*EventType, error) {
 	if !SafeFtracePath(path) {
 		return nil, BadEvent
 	}
@@ -82,7 +81,7 @@ func newEventType(fp FileProvider, path string) (*EventType, error) {
 	etype := EventType{
 		fileProvider: fp,
 		path:         path,
-		name:         filepath.Base(path),
+		name:         name,
 	}
 	err := etype.parseFormatFile()
 	if err != nil {
@@ -96,6 +95,10 @@ func newEventType(fp FileProvider, path string) (*EventType, error) {
 	etype.finishNewType()
 
 	return &etype, nil
+}
+
+func (etype *EventType) Id() int {
+	return etype.id
 }
 
 func (etype *EventType) Name() string {
@@ -415,7 +418,14 @@ func (ev eventVariable) Get(ctx cparse.EvalContext) cparse.Value {
 		} else {
 			i = e.values[ev.fieldNum].DecodeUint()
 		}
-		return cparse.NewValueInt(i, e.etype.fields[ev.fieldNum].size, e.etype.fields[ev.fieldNum].signed)
+		nv := cparse.NewValueInt(i, e.etype.fields[ev.fieldNum].size, e.etype.fields[ev.fieldNum].signed)
+
+		// XXX: What if it's actually a string?!
+		if e.etype.fields[ev.fieldNum].dataloc {
+			return getString(ctx, []cparse.Value{nv})
+		}
+
+		return nv
 	}
 }
 
