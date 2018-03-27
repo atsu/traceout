@@ -134,7 +134,7 @@ dataLoop:
 					return
 				}
 
-				dataLen = int(order.Uint32(data))
+				dataLen = int(order.Uint32(data)) - 4
 				data = data[4:]
 			} else {
 				dataLen = int(typeLen) * 4
@@ -206,6 +206,20 @@ type Event struct {
 	Flags    uint
 	Preempt  int
 	contents []byte
+}
+
+func (e Event) Etype() *EventType {
+	return e.etype
+}
+
+func (e Event) GetField(name string) interface{} {
+	v := e.Etype().GetVariable(name)
+
+	if v == nil {
+		return v
+	}
+
+	return v.Get(e).AsInterface()
 }
 
 func (e Event) String() string {

@@ -65,8 +65,8 @@ func (f *Ftrace) init() error {
 	return nil
 }
 
-func (f *Ftrace) NewEventType(path string) (*EventType, error) {
-	etype, err := newEventType(f.fp, path)
+func (f *Ftrace) NewEventType(path string, name string) (*EventType, error) {
+	etype, err := newEventType(f.fp, path, name)
 	if err != nil {
 		return nil, err
 	}
@@ -81,10 +81,28 @@ func (f *Ftrace) NewEventType(path string) (*EventType, error) {
 }
 
 func (f *Ftrace) Enable() error {
+	if err := f.fp.WriteFtraceFile("current_tracer", []byte("nop")); err != nil {
+		return err
+	}
+	if err := f.fp.WriteFtraceFile("buffer_size_kb", []byte("20480")); err != nil {
+		return err
+	}
+	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("32768")); err != nil {
+		return err
+	}
 	return f.fp.WriteFtraceFile("tracing_on", []byte("1"))
 }
 
 func (f *Ftrace) Disable() error {
+	if err := f.fp.WriteFtraceFile("current_tracer", []byte("nop")); err != nil {
+		return err
+	}
+	if err := f.fp.WriteFtraceFile("buffer_size_kb", []byte("1408")); err != nil {
+		return err
+	}
+	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("32768")); err != nil {
+		return err
+	}
 	return f.fp.WriteFtraceFile("tracing_on", []byte("0"))
 }
 
@@ -106,6 +124,12 @@ func (f *Ftrace) PrepareCapture(cpus int, doneCh <-chan bool) error {
 
 	for cpu := 0; cpu < cpus; cpu++ {
 		ch, err := f.getEvents(cpu, doneCh)
+
+		// This assumes a nil channel means no file.
+		if ch == nil {
+			continue
+		}
+
 		if err != nil {
 			return err
 		}
