@@ -212,6 +212,14 @@ func (e Event) Etype() *EventType {
 	return e.etype
 }
 
+func (e Event) Contents() []byte {
+	return e.contents
+}
+
+func (e *Event) SetFtrace(f *Ftrace) {
+	e.ftrace = f
+}
+
 func (e Event) GetField(name string) interface{} {
 	v := e.Etype().GetVariable(name)
 

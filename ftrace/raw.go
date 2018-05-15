@@ -47,8 +47,13 @@ func getRawFtraceChan(fp FileProvider, cpu int, doneCh <-chan bool) (<-chan []by
 			}
 
 			if err != nil || n == 0 {
-				// Silently ignore EOF, spew ignorance for the rest.
-				if err != io.EOF {
+				// Except for testFileProvider cases, silently ignore EOF, spew ignorance for the rest.
+				if err == io.EOF {
+					if _, ok := fp.(*testFileProvider); ok {
+						break
+					}
+
+				} else {
 					fmt.Println(err, "ignoring")
 				}
 				continue
