@@ -65,8 +65,8 @@ func (f *Ftrace) init() error {
 	return nil
 }
 
-func (f *Ftrace) NewEventType(path string, name string) (*EventType, error) {
-	etype, err := newEventType(f.fp, path, name)
+func (f *Ftrace) NewEventType(name string, path string) (*EventType, error) {
+	etype, err := newEventType(f.fp, name, path)
 	if err != nil {
 		return nil, err
 	}
