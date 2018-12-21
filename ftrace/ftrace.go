@@ -65,8 +65,8 @@ func (f *Ftrace) init() error {
 	return nil
 }
 
-func (f *Ftrace) NewEventType(name string, path string) (*EventType, error) {
-	etype, err := newEventType(f.fp, name, path)
+func (f *Ftrace) NewEventType(path string, name string) (*EventType, error) {
+	etype, err := newEventType(f.fp, path, name)
 	if err != nil {
 		return nil, err
 	}
@@ -90,6 +90,8 @@ func (f *Ftrace) Enable() error {
 	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("32768")); err != nil {
 		return err
 	}
+	// XXX If we don't clear, it triggers a bug in RHEL6. Issues #1.
+	f.Clear()
 	return f.fp.WriteFtraceFile("tracing_on", []byte("1"))
 }
 
@@ -103,6 +105,8 @@ func (f *Ftrace) Disable() error {
 	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("32768")); err != nil {
 		return err
 	}
+	// XXX If we don't clear, it triggers a bug in RHEL6. Issues #1.
+	f.Clear()
 	return f.fp.WriteFtraceFile("tracing_on", []byte("0"))
 }
 
