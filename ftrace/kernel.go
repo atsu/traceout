@@ -17,7 +17,7 @@ package ftrace
 import (
 	"strings"
 
-	"github.com/atsuio/traceout/ftrace/cparse"
+	"github.com/atsu/traceout/ftrace/cparse"
 )
 
 type kernelFunc func(cparse.EvalContext, []cparse.Value) cparse.Value
