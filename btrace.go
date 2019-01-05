@@ -24,7 +24,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/atsuio/traceout/ftrace"
+	"github.com/atsu/traceout/ftrace"
 )
 
 import _ "net/http/pprof"
