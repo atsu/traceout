@@ -53,6 +53,7 @@ func getRawFtraceChan(fp FileProvider, cpu int, doneCh <-chan bool) (<-chan []by
 					if _, ok := fp.(*testFileProvider); ok {
 						break
 					}
+
 				} else {
 					fmt.Println(err, "ignoring")
 				}
