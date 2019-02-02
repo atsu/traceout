@@ -73,7 +73,7 @@ func (localFileProvider) OpenFtrace(filename string) (io.ReadCloser, error) {
 		return nil, BadFtraceFileName
 	}
 
-	return os.Open(path.Join(ftracePath, filename))
+	return os.OpenFile(path.Join(ftracePath, filename), os.O_RDONLY, os.ModeNamedPipe)
 }
 
 // recordingFileProvider
