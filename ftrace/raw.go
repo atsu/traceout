@@ -41,6 +41,7 @@ func getRawFtraceChan(fp FileProvider, cpu int, doneCh <-chan bool) (<-chan []by
 
 		for {
 			var buf = make([]byte, syscall.Getpagesize())
+			syscall.SetNonblock(int(f.(*os.File).Fd()), false)
 			n, err := f.Read(buf)
 			if e, ok := err.(*os.PathError); ok && e.Err == syscall.EINTR {
 				continue
