@@ -5,7 +5,7 @@ IMAGE=$(IMAGE_SETUP) atsuio/centosgobuilder:latest
 
 all: build
 
-build: traceout
+build:
 	docker run --rm $(IMAGE) sqrl make -a
 
 cbuild: ctest
@@ -20,4 +20,4 @@ tag:
 clean:
 	rm -rf .cpkg traceout
 
-.PHONY: all cbuild ctest tag clean
+.PHONY: all build cbuild ctest tag clean
