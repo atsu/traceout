@@ -1,4 +1,21 @@
-language: go
-
+branches:
+  only:
+    - master
+services:
+  - docker
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u atsubot --password-stdin
 script:
-    - go test ./...
+  - make build
+  - git status # for diagnostics, in case go.mod or go.sum has been modified
+notifications:
+  slack:
+    secure: JdMJV0Z+P3QfuvfTKw/GZ2+bCqalfWR9TitO761l0sUmCipf6wY9kL/rpk+A/4e4fOyng9qbjMqw5ijH0/BhXKI6jDg34Cehf3G5fpabsMseKQyzkq//sNp812OL6LEKHWdK4AqJhdZ85SG2aDAB5CCmtZvtiJjAdNx6vjGaVnLovDE/tnRAnOVLezhXgERW0TFJq2cGVotU22XQMT8zRMeOBA1amPXrpQB9dIC+zMEWTy4uM60VO6FQsX9Rhn6YvFYHy28i4/nLzmAJl8r7nTkwcAtPW9XdZAaE2+QiReIUqB0VHIsaGjsUgfeaPwSDN3lU9BO3iaGVs2eRCkZh9Qe44xwTCCD02cKlz4JNw9Yggls5Y9iaO+apX/q3bAuoEJ7MLc3nL8R7iAdcnvCeWs0ElGp1QrmVSKgXMza+ooCoabILMYTeuqEHT7nvZjLsj/iZGaHtvqhX6s8rqP1z4uzNjukXbAs+KBLLuquQxo4o2V0dMo4GC4SqSbGxFr1zGM8YAW1HGQfMOuVRTPawF3bNt4NBFfjTo995DZx2ybZuv3OTfxnJVgtqMY8MAYNrpWzjoGEDMzc9YU3faJ1HV1/9XPC92kEiFFR2alTmer8J5jC6GGV5OO3N4FnJlpc5gs1a/tX1eoggpcffHi3C6QDaH+j8CeHrVFtps6S1Sg4=
+before_deploy:
+  - make tag
+deploy:
+  provider: releases
+  api_key:
+    secure: IgAdioh9L2v/UHZyk30aJfybSAA4BUb3/Gdy67t9xubpo2jVbgrZbAu3L5amOfEp5ixiXVSm/FZujTPRJEhzTSqDoFmR2xrZP4ceyQYWgpKXvxjI89r6RqQgHS9rZLdFORtF0LhW5nW2OBanCjEjMr2r/kfnVIXXGQzidcwTT5Mahp+B2j5h6WWv86U2lyBqdr1smc51a7Ut1DtaRnbCLeIbB2XzkBR2rVLiwCxJxS4W4SJYPZuzjic5sM697OQKOKzlumfDwwhD38fIeFVsB0bDKnFVeJfXqBLjXlxxHXrIwJw4fR1q+PXYRW2LaDUjYkVidOt0BWh0Ui3MiX3tyy/5tKxY/DakC7BNWvpPJji34cDn2a7QlhMGYC4DMoHinW8vFafe89dl6d2sUhC3Qmd9J0X6IHDwlJ0h/wqDUni86m7H2kqQu4ft/Wf2YbpB7P+7MPNDEPN7t8g49OV0lQyUjUvon2eCNJLCLscrbPvIhPeEgwcbuNLeTbOK/D6FyTA+ELylav3OR42aJQZY+YkT98Wz+oozukAn6d9VcLCpXTjgzq1Dqhne+ZberXjWa1ekYXHyDhNbRDW3AUioDFzGGrxBTYwiDwUxU60Czrs59kDn7m7LUNZHWc4cVdG5sGJR8IaoqG+k3O6UWiTa5ForpaUWuQRRMcIeDLhFoNc=
+  on:
+    condition: $ATSU_RELEASE = true
