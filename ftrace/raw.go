@@ -34,6 +34,7 @@ func getRawFtraceChan(fp FileProvider, cpu int, doneCh <-chan bool) (<-chan []by
 	if err != nil {
 		return nil, err
 	}
+	_, isfile := f.(*os.File)
 
 	go func() {
 		defer f.Close()
@@ -41,7 +42,11 @@ func getRawFtraceChan(fp FileProvider, cpu int, doneCh <-chan bool) (<-chan []by
 
 		for {
 			var buf = make([]byte, syscall.Getpagesize())
-			syscall.SetNonblock(int(f.(*os.File).Fd()), false)
+			// XXX In order to work correctly with the trace_pipe
+			// we must set the file descriptor to blocking.
+			if isfile {
+				syscall.SetNonblock(int(f.(*os.File).Fd()), false)
+			}
 			n, err := f.Read(buf)
 			if e, ok := err.(*os.PathError); ok && e.Err == syscall.EINTR {
 				continue
