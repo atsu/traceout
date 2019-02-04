@@ -15,5 +15,5 @@ deploy:
   provider: releases
   api_key:
     secure: Q2OnlK2zG/KoKjDoxtia0nSRFEs8Clt5I/MiEaCaf/XWoqPsuAUyINjPSgE5g3ptw6Ni9lNAX1KX0jZ4My2dZ9Tsz0U22JxQFr1gSXBD2ZAMPjgQSZ2ds5tBasNvRJrnXm/vifet3IcxYp50GUUSaThi+fcf7LqC3+DGAvflbIY0k26RoubGwtgKlID2FZfqr7r+yvfnB7GCDiHdSvLgnyaX7GfJsl8x+xniFVVZlDy1HJ6F4TpO96wlupK3BJ95XxCjYnjRbK2RFVMHi7yhPh8fIxaVK1VtWvz6bcS4Ge03WEJWV2gycz3cxG9VaW+U2GWtZHsSPjrfoZcClb3MOsOqSRxiqghkDz187+mz1OSOaOkKWIWBo/kC8L9UKEMXTUZYqnD6Qw5fq6Ul3Gx7ll+9CBsvY6cF/8si8+VMeqJtMhML13XX0aBfgVTIkwfszlBX1rd04PuY+dLMD4S6dm1yEeLyhUdi3879Gqn4C2YBxPGoAwBCwTBH/WjAjMyYU9H6iFPLa0eZ/fy7YTm4UDNUAVDTmYyPQbjNjgcueQknybhoYHivbH8UZ2hdIQbiCuW2PHcGEpP39p5OaRWjZR7d4vtRW12IHwtfcDuT7Sv75WVaPW2CclPc3WToGNurrG8n/ilIMucXcTJwWqgzxpG4Bita+2nP3hYv1WJDUng=
-- on:
--   condition: $ATSU_RELEASE = true
+  on:
+    condition: $ATSU_RELEASE = true
