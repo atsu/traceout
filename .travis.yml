@@ -1,6 +1,3 @@
-branches:
-  only:
-  - /.*/
 services:
 - docker
 before_script:
