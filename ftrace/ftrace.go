@@ -168,7 +168,8 @@ func (f *Ftrace) Capture(callback func(Events)) {
 
 func (f *Ftrace) processName(pid int) string {
 	if !f.isCachedProcessNames {
-		f.isCachedProcessNames = true
+		// Note that if this were set, we'd only do this once.
+
 		processNameFile, err := f.fp.ReadFtraceFile("saved_cmdlines")
 		if err != nil {
 			return ""
