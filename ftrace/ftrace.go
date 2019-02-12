@@ -22,12 +22,11 @@ import (
 )
 
 type Ftrace struct {
-	fp                   FileProvider
-	eventTypes           map[int]*EventType
-	selectCases          []reflect.SelectCase
-	cachedProcessNames   map[int]string
-	isCachedProcessNames bool
-	cachedKallsyms       map[uint64]string
+	fp                 FileProvider
+	eventTypes         map[int]*EventType
+	selectCases        []reflect.SelectCase
+	cachedProcessNames map[int]string
+	cachedKallsyms     map[uint64]string
 
 	pageHeader               *EventType
 	pageHeaderFieldTimestamp int
@@ -167,28 +166,29 @@ func (f *Ftrace) Capture(callback func(Events)) {
 }
 
 func (f *Ftrace) processName(pid int) string {
-	if !f.isCachedProcessNames {
-		// Note that if this were set, we'd only do this once.
+	// Note that if this were set, we'd only do this once.
 
-		processNameFile, err := f.fp.ReadFtraceFile("saved_cmdlines")
-		if err != nil {
-			return ""
+	processNameFile, err := f.fp.ReadFtraceFile("saved_cmdlines")
+	if err != nil {
+		return ""
+	}
+	processNames := strings.Split(string(processNameFile), "\n")
+	for _, n := range processNames {
+		v := strings.SplitN(n, " ", 2)
+		if len(v) != 2 {
+			continue
 		}
-		processNames := strings.Split(string(processNameFile), "\n")
-		for _, n := range processNames {
-			v := strings.SplitN(n, " ", 2)
-			if len(v) != 2 {
-				continue
-			}
-			p, err := strconv.Atoi(v[0])
-			if err != nil {
-				continue
-			}
-			f.cachedProcessNames[p] = v[1]
+		p, err := strconv.Atoi(v[0])
+		if err != nil {
+			continue
+		}
+
+		if pid == p {
+			return v[1]
 		}
 	}
 
-	return f.cachedProcessNames[pid]
+	return ""
 }
 
 func (f *Ftrace) kernelSymbol(addr uint64) string {
