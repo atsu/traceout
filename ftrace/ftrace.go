@@ -22,11 +22,10 @@ import (
 )
 
 type Ftrace struct {
-	fp                 FileProvider
-	eventTypes         map[int]*EventType
-	selectCases        []reflect.SelectCase
-	cachedProcessNames map[int]string
-	cachedKallsyms     map[uint64]string
+	fp             FileProvider
+	eventTypes     map[int]*EventType
+	selectCases    []reflect.SelectCase
+	cachedKallsyms map[uint64]string
 
 	pageHeader               *EventType
 	pageHeaderFieldTimestamp int
@@ -58,8 +57,6 @@ func (f *Ftrace) init() error {
 	f.pageHeaderFieldTimestamp = f.pageHeader.getFieldNum("timestamp")
 	f.pageHeaderFieldCommit = f.pageHeader.getFieldNum("commit")
 	f.pageHeaderFieldData = f.pageHeader.getFieldNum("data")
-
-	f.cachedProcessNames = make(map[int]string)
 
 	return nil
 }
@@ -166,8 +163,6 @@ func (f *Ftrace) Capture(callback func(Events)) {
 }
 
 func (f *Ftrace) processName(pid int) string {
-	// Note that if this were set, we'd only do this once.
-
 	processNameFile, err := f.fp.ReadFtraceFile("saved_cmdlines")
 	if err != nil {
 		return ""
