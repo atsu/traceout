@@ -311,6 +311,35 @@ func (e EventsByTime) Less(i, j int) bool {
 	return e.Events[i].When < e.Events[j].When
 }
 
+type EventsByType struct{ Events }
+
+func (e EventsByType) Less(i, j int) bool {
+	iopen := false
+	jopen := false
+	switch {
+	case e.Events[i].Type == "open":
+		fallthrough
+	case e.Events[i].Type == "opendir":
+		iopen = true
+	case e.Events[j].Type == "open":
+		fallthrough
+	case e.Events[j].Type == "opendir":
+		jopen = true
+	}
+
+	switch {
+	case iopen == jopen:
+		if e.Events[i].When == e.Events[j].When {
+			return e.Events[i].Cpu < e.Events[j].Cpu
+		}
+		return e.Events[i].Cpu < e.Events[j].Cpu
+	case iopen:
+		return true
+	case oopen:
+		return false
+	}
+}
+
 type Events []*Event
 
 func (e Events) Len() int      { return len(e) }
