@@ -317,13 +317,13 @@ func (e EventsByType) Less(i, j int) bool {
 	iopen := false
 	jopen := false
 	switch {
-	case e.Events[i].Type == "open":
+	case e.Events[i].Etype().Name() == "open":
 		fallthrough
-	case e.Events[i].Type == "opendir":
+	case e.Events[i].Etype().Name() == "opendir":
 		iopen = true
-	case e.Events[j].Type == "open":
+	case e.Events[j].Etype().Name() == "open":
 		fallthrough
-	case e.Events[j].Type == "opendir":
+	case e.Events[j].Etype().Name() == "opendir":
 		jopen = true
 	}
 
@@ -335,9 +335,12 @@ func (e EventsByType) Less(i, j int) bool {
 		return e.Events[i].Cpu < e.Events[j].Cpu
 	case iopen:
 		return true
-	case oopen:
+	case jopen:
 		return false
 	}
+
+	// never reached
+	return false
 }
 
 type Events []*Event
