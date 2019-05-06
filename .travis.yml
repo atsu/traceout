@@ -3,6 +3,7 @@ services:
 before_script:
 - echo "$DOCKER_PASSWORD" | docker login -u atsubot --password-stdin
 - export ATSU_VERSION=$(docker run -v $(pwd):/src -e BUILD_ENV="$(env | grep 'USER\|TRAVIS\|ATSU\|GITHUB')" atsuio/basebuilder:latest sqrl info -v version)
+- echo "${ATSU_VERSION}"
 script:
 - make build
 - git status
