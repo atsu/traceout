@@ -224,10 +224,6 @@ func (e Event) GetWhen() uint64 {
 	return e.When
 }
 
-func (e Event) GetWhen() uint64 {
-	return e.When
-}
-
 func (e Event) Etype() *EventType {
 	return e.etype
 }
