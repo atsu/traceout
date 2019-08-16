@@ -208,7 +208,7 @@ type Event struct {
 	contents []byte
 }
 
-func (e Event) Name() string {
+func (e Event) GetName() string {
 	return e.Etype().Name()
 }
 
