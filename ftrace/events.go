@@ -208,6 +208,22 @@ type Event struct {
 	contents []byte
 }
 
+func (e Event) GetPid() uint64 {
+	return uint64(e.Pid)
+}
+
+func (e Event) GetName() string {
+	return e.Etype().Name()
+}
+
+func (e Event) GetCpu() uint64 {
+	return uint64(e.Cpu)
+}
+
+func (e Event) GetWhen() uint64 {
+	return e.When
+}
+
 func (e Event) Etype() *EventType {
 	return e.etype
 }
