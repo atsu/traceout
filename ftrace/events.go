@@ -208,6 +208,10 @@ type Event struct {
 	contents []byte
 }
 
+func (e Event) Name() string {
+	return e.Etype().Name()
+}
+
 func (e Event) Etype() *EventType {
 	return e.etype
 }
