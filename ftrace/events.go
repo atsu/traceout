@@ -208,8 +208,9 @@ type Event struct {
 	contents []byte
 }
 
+// GetPid actually returns the tgid, an atsu-specific field
 func (e Event) GetPid() uint64 {
-	return uint64(e.Pid)
+	return uint64(e.GetField("tgid").(int64))
 }
 
 func (e Event) GetName() string {
