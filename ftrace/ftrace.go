@@ -86,7 +86,7 @@ func (f *Ftrace) Enable() error {
 	if err := f.fp.WriteFtraceFile("buffer_size_kb", []byte("20480")); err != nil {
 		return err
 	}
-	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("32768")); err != nil {
+	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("1024")); err != nil {
 		return err
 	}
 	return f.fp.WriteFtraceFile("tracing_on", []byte("1"))
@@ -102,7 +102,7 @@ func (f *Ftrace) Disable() error {
 	if err := f.fp.WriteFtraceFile("buffer_size_kb", []byte("1408")); err != nil {
 		return err
 	}
-	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("32768")); err != nil {
+	if err := f.fp.WriteFtraceFile("saved_cmdlines_size", []byte("1024")); err != nil {
 		return err
 	}
 	return f.fp.WriteFtraceFile("tracing_on", []byte("0"))
