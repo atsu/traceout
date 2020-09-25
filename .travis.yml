@@ -2,7 +2,7 @@ services:
 - docker
 before_script:
 - echo "$DOCKER_PASSWORD" | docker login -u atsubot --password-stdin
-- export ATSU_VERSION=$(docker run -v $(pwd):/src -e BUILD_ENV="$(env | grep 'USER\|TRAVIS\|ATSU\|GITHUB')" atsuio/centosgobuilder:latest sqrl info -v version)
+- export ATSU_VERSION=$(docker run -v $(pwd):/src -e BUILD_ENV="$(env | grep 'USER\|TRAVIS\|ATSU\|GITHUB')" ghcr.io/atsu/centosgobuilder:latest sqrl info -v version)
 - echo "${ATSU_VERSION}"
 script:
 - make build

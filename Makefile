@@ -1,7 +1,7 @@
 GOMOD?=on
 
 IMAGE_SETUP=-v $(shell pwd)/.cpkg:/root/go/pkg -v $(shell pwd):/src -e BUILD_ENV="$(shell env | grep 'USER\|TRAVIS\|ATSU\|GITHUB')"
-IMAGE=$(IMAGE_SETUP) atsuio/centosgobuilder:latest
+IMAGE=$(IMAGE_SETUP) ghcr.io/atsu/centosgobuilder:latest
 
 all: build
 
