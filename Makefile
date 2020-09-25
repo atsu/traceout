@@ -6,7 +6,7 @@ IMAGE=$(IMAGE_SETUP) atsuio/centosgobuilder:latest
 all: build
 
 build:
-	docker run --rm $(IMAGE) sqrl make -a
+	docker run --rm $(IMAGE) sqrl make
 
 cbuild: ctest
 	GO111MODULE=$(GOMOD) go build ./...
