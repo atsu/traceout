@@ -45,12 +45,12 @@ func NewPrintfFunction(args []cparse.Expression, callback conversionCallback) (c
 		return nil, fmt.Errorf("expected at least one argument to printf")
 	}
 	if !args[0].IsConstant() {
-		return nil, fmt.Errorf("expected constant as first argument to printf, got " +
+		return nil, fmt.Errorf("expected constant as first argument to printf, got %s",
 			args[0].Dump())
 	}
 	v := args[0].Value(nil)
 	if !v.IsString() {
-		return nil, fmt.Errorf("expected string as first argument to printf, got " + args[0].Dump())
+		return nil, fmt.Errorf("expected string as first argument to printf, got %s", args[0].Dump())
 	}
 	format := v.AsString()
 	args = args[1:]

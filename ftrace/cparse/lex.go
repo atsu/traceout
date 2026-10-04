@@ -271,10 +271,10 @@ func lexNumber(l *lexer) stateFn {
 }
 
 func lexPunctuation(l *lexer) stateFn {
-	s := string(l.next())
+	s := string(rune(l.next()))
 	t, _ := stringToToken[s]
 	for {
-		ns := s + string(l.peek())
+		ns := s + string(rune(l.peek()))
 		nt, ok := stringToToken[ns]
 		if !ok {
 			break

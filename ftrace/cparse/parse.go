@@ -86,7 +86,7 @@ func (p *parser) parseSubExpression(l *intermediateList, endToken tokenType) (in
 		// subsize should be 0 or 1
 		// i points to the start token, i+subSize+1 points to the end token
 		if l.token(i+subSize+1).typ != subEndToken {
-			return -1, fmt.Errorf("missing closing token for " + t.val)
+			return -1, fmt.Errorf("missing closing token for %s", t.val)
 		}
 
 		e := l.expression(i + 1)

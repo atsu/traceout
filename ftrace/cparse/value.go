@@ -159,7 +159,7 @@ func (v Value) AsInterface() interface{} {
 	case v.IsError():
 		return v.AsError()
 	default:
-		panic("unknown value type: " + string(int(v.typ)))
+		panic("unknown value type: " + strconv.Itoa(int(v.typ)))
 	}
 }
 
@@ -187,7 +187,7 @@ func (v Value) dump() string {
 	case v.IsError():
 		return v.AsError().Error()
 	default:
-		panic("unknown value type: " + string(int(v.typ)))
+		panic("unknown value type: " + strconv.Itoa(int(v.typ)))
 	}
 }
 
