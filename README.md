@@ -32,7 +32,7 @@ go test ./...
 
 ## Status
 
-Archived alongside the rest of atsu. The 2026 revival replaces ftrace-based collection with eBPF tracepoints; this library is kept for the legacy `gather` daemon.
+Maintenance only. The 2026 revival replaces ftrace-based collection with eBPF tracepoints; this library is kept for the legacy `gather` daemon.
 
 ## License
 
